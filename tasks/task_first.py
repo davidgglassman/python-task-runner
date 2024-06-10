@@ -1,10 +1,4 @@
 ################################################################################
-# IMPORTS
-################################################################################
-
-from status_helpers import Status
-
-################################################################################
 # INFO
 ################################################################################
 
@@ -47,7 +41,7 @@ def get_info():
 ################################################################################
 
 def handle_generic_question(result):
-	return Status("Completed Generic Question Task")
+	return ("Completed Generic Question Task", True)
 
 def handle_yes_no_question(result):
-	return Status("Failed to complete Yes/No Question Task", error=True)
+	return ("Failed to complete Yes/No Question Task", False)

@@ -1,10 +1,4 @@
 ################################################################################
-# IMPORTS
-################################################################################
-
-from status_helpers import Status
-
-################################################################################
 # INFO
 ################################################################################
 
@@ -51,7 +45,7 @@ def get_info():
 ################################################################################
 
 def handle_single_choice_question(result):
-	return Status("Completed Single Choice Question Task")
+	return ("Completed Single Choice Question Task", True)
 
 def handle_multiple_choice_question(result):
-	return Status("Failed to complete Multiple Choice Question Task", error=True)
+	return ("Failed to complete Multiple Choice Question Task", False)

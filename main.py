@@ -8,15 +8,12 @@ import os
 import sys
 import argparse
 import json
-import console_helpers
-
 import importlib
+import helpers.console_helpers as console_helpers
 
+from helpers.console_helpers import GenericQuestion, YesNoQuestion, SingleChoiceQuestion, MultipleChoiceQuestion, ConsoleSpinner
+from helpers.status_helpers import Status
 from rich.console import Console
-
-from console_helpers import GenericQuestion, YesNoQuestion, SingleChoiceQuestion, MultipleChoiceQuestion, ConsoleSpinner
-
-from status_helpers import Status
 
 ################################################################################
 # VARIABLES

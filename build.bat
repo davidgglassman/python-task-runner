@@ -4,9 +4,6 @@ setlocal
 REM Create virtual environment
 python -m venv env
 
-REM Install packages
-pip install -r requirements.txt
-
 REM Activate virtual environment
 call env\Scripts\activate.bat
 

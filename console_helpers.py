@@ -134,7 +134,7 @@ class ConsoleSpinner:
 	def __init__(self, *args, **kwargs):
 		self.spinner_characters = kwargs.get("spinner_characters", DOTS)	# List of strings that will be displayed in sequence by a spinner
 		self.text 							= kwargs.get("text", "Loading...")				# Static text that will be shown after the spinner
-		self.time 							= kwargs.get("time", 3)										# Time in seconds that the spinner will be shown
+		self.time 							= kwargs.get("time", 0)										# Time in seconds that the spinner will be shown
 		self.refresh_per_second = kwargs.get("refresh_per_second", 10)		# Number of refreshes the spinner will do a second, this will affect the fluidity of the "animation"
 		self.transient					= kwargs.get("transient", True)						# If True, the spinner will be shown until the program is terminated
 
@@ -144,5 +144,10 @@ class ConsoleSpinner:
 													 transient=self.transient)
 
 		self.spinner.start()
-		time.sleep(self.time)
+
+		if self.time > 0:
+			time.sleep(self.time)
+			self.stop()
+
+	def stop(self):
 		self.spinner.stop()

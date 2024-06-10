@@ -20,17 +20,22 @@ def get_info():
 		},
 		"steps": [
 			{
+				"name": "Generic Question Task",
 				"prompt_type": "GenericQuestion",
 				"args": ["Task 1 Step 1: Generic question"],
-				"kwargs": {},
+				"kwargs": {
+					"initial_value": "Some initial value"
+				},
 				"function": handle_generic_question
 			},
 			{
+				"name": "Yes/No Question Task",
 				"prompt_type": "YesNoQuestion",
 				"args": ["Task 1 Step 2: Yes/No question"],
 				"kwargs": {
 					"yes_text": "Sure",
-					"no_text": "Nah"
+					"no_text": "Nah",
+					"cursor": "*"
 				},
 				"function": handle_yes_no_question
 			}
@@ -42,7 +47,7 @@ def get_info():
 ################################################################################
 
 def handle_generic_question(result):
-	return Status("generic question result: success")
+	return Status("Completed Generic Question Task")
 
 def handle_yes_no_question(result):
-	return Status("yes/no question result: failure", error=True)
+	return Status("Failed to complete Yes/No Question Task", error=True)

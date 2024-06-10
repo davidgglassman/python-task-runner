@@ -20,17 +20,19 @@ def get_info():
 		},
 		"steps": [
 			{
+				"name": "Single Choice Question Task",
 				"prompt_type": "SingleChoiceQuestion",
 				"args": [
 					"Task 2 Step 1: Single choice question",
 					["Option 1", "Option 2", "Option 3"]
 				],
 				"kwargs": {
-					"cursor": "**"
+					"cursor": "x"
 				},
 				"function": handle_single_choice_question
 			},
 			{
+				"name": "Multiple Choice Question Task",
 				"prompt_type": "MultipleChoiceQuestion",
 				"args": [
 					"Task 2 Step 2: Multiple choice question",
@@ -49,7 +51,7 @@ def get_info():
 ################################################################################
 
 def handle_single_choice_question(result):
-	return Status("single choice question result: success")
+	return Status("Completed Single Choice Question Task")
 
 def handle_multiple_choice_question(result):
-	return Status("multiple choice question result: failure", error=True)
+	return Status("Failed to complete Multiple Choice Question Task", error=True)

@@ -152,12 +152,18 @@ def main():
 				choice = YesNoQuestion("\nAre you satisfied with your answers?", default_is_yes=True).ask()
 				
 				if choice.value == "Yes":
+					console.print(get_space())
+
 					for index, task in enumerate(summarizer.tasks):
+						spinner = ConsoleSpinner(text=f"Running Task {index + 1} of {len(summarizer.tasks)}: {info['steps'][index]['name']}", time=1)
+
 						result = info["steps"][index]["function"](task)
 						print(result)
+
+						spinner.stop()
 						
 						if result.error:
-							print("Task failed")
+							console.print(f"\n{get_line()}")
 							break
 
 					break

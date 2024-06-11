@@ -1,6 +1,8 @@
 import time
+import questionary
 from beaupy.spinners import *
 from beaupy import confirm, prompt, select, select_multiple
+from prompt_toolkit.shortcuts import CompleteStyle
 
 # ----------------------------------------------------------------------------------------
 
@@ -125,6 +127,35 @@ class MultipleChoiceQuestion:
 														 strict=self.strict,
 														 pagination=self.pagination,
 														 page_size=self.page_size)
+
+		return Result(self.question, result)
+
+# ----------------------------------------------------------------------------------------
+
+class FilePathQuestion:
+	def __init__(self, *args, **kwargs):
+		self.question 				= args[0]																							# Question to be asked
+		self.default 					= kwargs.get("default", "")														# Default return value (single value)
+		self.qmark 						= kwargs.get("qmark", "")															# Question prefix displayed in front of the question
+		self.complete_style 	= kwargs.get("complete_style", CompleteStyle.COLUMN)	# How autocomplete menu would be shown, it could be COLUMN MULTI_COLUMN or READLINE_LIKE from prompt_toolkit.shortcuts.CompleteStyle
+		self.validate 				= kwargs.get("validate", None)												# Require the entered value to pass a validation. The value can not be submitted until the validator accepts it (e.g. to check minimum password length).
+		self.completer 				= kwargs.get("completer", None)												# A custom completer to use in the prompt. For more information, see this.
+		self.style 						= kwargs.get("style", None)														# A custom color and style for the question parts. You can configure colors as well as font types for different elements.
+		self.only_directories = kwargs.get("only_directories", False)								# Only show directories in auto completion. This option does not do anything if a custom completer is passed.
+		self.get_paths 				= kwargs.get("get_paths", None)												# Set a callable to generate paths to traverse for suggestions. This option does not do anything if a custom completer is passed.
+		self.file_filter 			= kwargs.get("file_filter", None)											# Optional callable to filter suggested paths. Only paths where the passed callable evaluates to True will show up in the suggested paths. This does not validate the typed path, e.g. it is still possible for the user to enter a path manually, even though this filter evaluates to False. If in addition to filtering suggestions you also want to validate the result, use validate in combination with the file_filter.
+
+	def ask(self):
+		result = questionary.path(self.question,
+														  default=self.default,
+														  qmark=self.qmark,
+														  complete_style=self.complete_style,
+														  validate=self.validate,
+														  completer=self.completer,
+														  style=self.style,
+														  only_directories=self.only_directories,
+														  get_paths=self.get_paths,
+														  file_filter=self.file_filter).ask()
 
 		return Result(self.question, result)
 

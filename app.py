@@ -11,7 +11,7 @@ import json
 import importlib
 import helpers.console_helpers as console_helpers
 
-from helpers.console_helpers import GenericQuestion, YesNoQuestion, SingleChoiceQuestion, MultipleChoiceQuestion, ConsoleSpinner
+from helpers.console_helpers import GenericQuestion, YesNoQuestion, SingleChoiceQuestion, MultipleChoiceQuestion, FilePathQuestion, ConsoleSpinner
 from helpers.status_helpers import Status
 from rich.console import Console
 
@@ -252,19 +252,17 @@ def main():
 
 						result = info["steps"][index]["function"](task)
 
-						if type(result) == tuple:
-							status = Status(result[0], error=not result[1])
-							
-							print(status)
+						if isinstance(result, Status):
+							print(result)
 
 							spinner.stop()
 							
-							if status.error:
+							if result.error:
 								console.print(f"\n{get_line()}")
 								break
 
 						else:
-							print("Task step did not return a tuple")
+							print("Task step did not return a valid status")
 							spinner.stop()
 							break
 

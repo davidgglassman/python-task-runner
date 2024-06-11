@@ -1,20 +1,22 @@
 ################################################################################
+# IMPORTS
+################################################################################
+
+from helpers.status_helpers import Status
+
+################################################################################
 # INFO
 ################################################################################
 
 def get_info():
 	return {
-		"prompt": "Second task",
-		"header": {
-			"title": "Task 2 Header",
-			"descriptions": [
-				"This is line 1 for task 2",
-				"This is line 2 for task 2"
-			]
-		},
-		"steps": [
+		"title": "Second task",
+		"descriptions": [
+			"This is line 1 for task 2",
+			"This is line 2 for task 2"
+		],
+		"questions": [
 			{
-				"name": "Single Choice Question Task",
 				"prompt_type": "SingleChoiceQuestion",
 				"args": [
 					"Task 2 Step 1: Single choice question",
@@ -22,11 +24,9 @@ def get_info():
 				],
 				"kwargs": {
 					"cursor": "x"
-				},
-				"function": handle_single_choice_question
+				}
 			},
 			{
-				"name": "Multiple Choice Question Task",
 				"prompt_type": "MultipleChoiceQuestion",
 				"args": [
 					"Task 2 Step 2: Multiple choice question",
@@ -34,8 +34,7 @@ def get_info():
 				],
 				"kwargs": {
 					"tick_character": "x"
-				},
-				"function": handle_multiple_choice_question
+				}
 			}
 		]
 	}
@@ -44,8 +43,5 @@ def get_info():
 # TASKS
 ################################################################################
 
-def handle_single_choice_question(result):
-	return ("Completed Single Choice Question Task", True)
-
-def handle_multiple_choice_question(result):
-	return ("Failed to complete Multiple Choice Question Task", False)
+def run_task(results):
+	return Status("Completed Second Task")

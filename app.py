@@ -107,7 +107,7 @@ def get_module(key, value):
 def get_task_names():
 	tasks = modules_dict.values()
 	
-	task_names = [task.get_info()["prompt"] for task in tasks]
+	task_names = [task.get_info()["title"] for task in tasks]
 	task_names.append("Exit the application")
 	
 	return task_names
@@ -217,11 +217,11 @@ def main():
 
 			# -------- Selected Task
 
-			task = get_module("prompt", choice.value)
+			task = get_module("title", choice.value)
 
 			info = task.get_info()
 
-			header = CommandHeader(info["header"]["title"], info["header"]["descriptions"])
+			header = CommandHeader(info["title"], info["descriptions"])
 			
 			summarizer = TaskSummarizer(header)
 			summarizer.print_header()
@@ -231,9 +231,9 @@ def main():
 			while True:
 				summarizer.clear()
 
-				for step in info["steps"]:
-					cls = getattr(console_helpers, step["prompt_type"])
-					instance = cls(*step["args"], **step["kwargs"])
+				for question in info["questions"]:
+					cls = getattr(console_helpers, question["prompt_type"])
+					instance = cls(*question["args"], **question["kwargs"])
 					
 					summarizer.add(instance.ask())
 					summarizer.print_header()
@@ -245,26 +245,25 @@ def main():
 				if choice.value == "Yes":
 					console.print(get_space())
 
-					# -------- Run Task Steps
+					# -------- Run Task
 
-					for index, task in enumerate(summarizer.tasks):
-						spinner = ConsoleSpinner(text=f"Running Task {index + 1} of {len(summarizer.tasks)}: {info['steps'][index]['name']}", time=1)
+					spinner = ConsoleSpinner(text=f"Running Task: {info["title"]}", time=1)
 
-						result = info["steps"][index]["function"](task)
+					result = task.run_task(summarizer.tasks)
 
-						if isinstance(result, Status):
-							print(result)
+					if isinstance(result, Status):
+						print(result)
 
-							spinner.stop()
-							
-							if result.error:
-								console.print(f"\n{get_line()}")
-								break
-
-						else:
-							print("Task step did not return a valid status")
-							spinner.stop()
+						spinner.stop()
+						
+						if result.error:
+							console.print(f"\n{get_line()}")
 							break
+
+					else:
+						print("Task step did not return a valid status")
+						spinner.stop()
+						break
 
 					break
 

@@ -46,7 +46,7 @@ Below is an example of a manifest file:
 
 Once the `manifest.json` file has been read, the script will attempt to load all the tasks from the tasks folder. The tasks folder needs to contain an empty `__init__.py` file as well as one Python file for each task you would like to be included in the application. A sample tasks folder with two tasks has been included in the repo for reference.
 
-Each Python task file needs to include some specific information in order for the script to know how to process it. See below for specifics. Once all the tasks have been read in, the script will use this information to build a "main menu" containing a list of the available tasks. The user can choose which task they would like to perform from the menu. Once a task has been selected, the script will run through each of the questions associated with the task and gather all the responses from the user. Once all the responses have been gathered, the script will run each step in the task one by one, using the response associated with the step. Once all steps have been completed for a task, the script will return to the main menu, allowing the user to select a new task or exit the application.
+Each Python task file needs to include some specific information in order for the script to know how to process it. See below for specifics. Once all the tasks have been read in, the script will use this information to build a "main menu" containing a list of the available tasks. The user can choose which task they would like to perform from the menu. Once a task has been selected, the script will run through each of the questions associated with the task and gather all the responses from the user. Once all the responses have been gathered, the script will run the `run_task` function defined in the task, using the response associated with the step and return a `Status` response. Once the task has been completed, the script will return to the main menu, allowing the user to select a new task or exit the application.
 
 ## Task File
 
@@ -54,63 +54,49 @@ Each Python task file needs to include the following:
 
 1. A function definition named `get_info` which takes no arguments and returns a dictionary with the following key/value pairs:
 
-   - `prompt` (_string_): This will be the text that shows up for the task in the "main menu".
-   - `header` (_dictionary_): When the task is selected from the "main menu" and starts to run, the first thing that is printed out is a header for the task. The following key/value pairs are required in this dictionary:
-     - `title` (_string_): This will be the title text that shows up for the selected task.
-     - `descriptions` (_list of strings_): Each item in the list will be a line of descriptive text for the task. There is no limit to how many lines of text descriptions you can have.
-   - `steps` (_list of dictionaries_): Each dictionary will represent the information for a single question to be asked as well as the function to be performed once the task automation loop begins. Each dictionary in the list will need to contain the following key/value pairs:
-     - `name` (_string_): This will be the name of the step to be shown to the user.
+   - `title` (_string_): This will be the text that shows up for the task in the "main menu".
+   - `descriptions` (_list of strings_): Each item in the list will be a line of descriptive text for the task. There is no limit to how many lines of text descriptions you can have.
+   - `questions` (_list of dictionaries_): Each dictionary will represent the information for a single question to be asked. Each dictionary in the list will need to contain the following key/value pairs:
      - `prompt_type` (_string_): The app supports multiple different types of questions (prompts) that can be asked of the user. See below for a list of valid prompt types to use for this field.
      - `args` (_list of strings_): Each prompt type has a list of valid args that can be passed in to configure and customize the prompt. See below for a list of valid args to use in this field. All args listed for a particular prompt are required.
      - `kwargs` (_dictionary_): Each prompt type has a list of valid kwargs that can be passed in to configure and customize the prompt. See below for a list of valid kwargs to use in this field. Supply as many of as few kwargs as you want as a dictionary of key/value pairs.
-     - `function` (_function name_): The function to call when the step is run.
 
-2. A function definition for each step in the task to be performed when run. When the task automation is run, it will go through each step one by one and run whatever function is defined for that step. This function must include a single parameter in which to receive the response to the corresponding question that the user has answered. The function will run whatever custom logic it needs to complete the step and return a tuple. The first argument in the tuple will be either the success or error text to show to the user and the second argument in the tuple will be True if the step was successful and False if the step was not successful.
+2. A function definition named `run_task` which takes in a list of `Result` objects. The function will run whatever custom logic it needs to complete the task and return a `Status` object.
 
 Below is an example of a Python file for a sample task:
 
 ```python
+from helpers.status_helpers import Status
+
 def get_info():
 	return {
-		"prompt": "First task",
-		"header": {
-			"title": "Task 1 Header",
-			"descriptions": [
-				"This is line 1 for task 1",
-				"This is line 2 for task 1"
-			]
-		},
-		"steps": [
+		"title": "First task",
+		"descriptions": [
+			"This is line 1 for task 1",
+			"This is line 2 for task 1"
+		],
+		"questions": [
 			{
-				"name": "Generic Question Task",
 				"prompt_type": "GenericQuestion",
 				"args": ["Task 1 Step 1: Generic question"],
 				"kwargs": {
 					"initial_value": "Some initial value"
-				},
-				"function": handle_generic_question
+				}
 			},
 			{
-				"name": "Yes/No Question Task",
 				"prompt_type": "YesNoQuestion",
 				"args": ["Task 1 Step 2: Yes/No question"],
 				"kwargs": {
 					"yes_text": "Sure",
 					"no_text": "Nah",
 					"cursor": "*"
-				},
-				"function": handle_yes_no_question
+				}
 			}
 		]
 	}
 
-def handle_generic_question(result):
-	# do some logic associated with this step
-	return ("Completed Generic Question Task", True)
-
-def handle_yes_no_question(result):
-	# do some logic associated with this step
-	return ("Failed to complete Yes/No Question Task", False)
+def run_task(results):
+	return Status("Completed First Task")
 ```
 
 ## Prompt Types

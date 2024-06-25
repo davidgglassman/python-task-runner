@@ -27,7 +27,7 @@ class GenericQuestion:
 		self.initial_value 						 	= kwargs.get("initial_value", None)								# If present, the value is placed in the prompt as the default value
 
 	def ask(self):
-		result = prompt(self.question, 
+		result = prompt(f"{self.question}\n",
 										target_type=self.target_type,
 										validator=self.validator,
 										secure=self.secure,
@@ -48,11 +48,11 @@ class YesNoQuestion:
 		self.enter_empty_confirms = kwargs.get("enter_empty_confirms", True)	# No response is considered as confirmation
 		self.default_is_yes 			= kwargs.get("default_is_yes", False)				# Default response is positive
 		self.cursor 							= kwargs.get("cursor", ">")									# Cursor to be shown
-		self.cursor_style 				= kwargs.get("cursor_style", "pink1")				# Rich friendly cursor style
+		self.cursor_style 				= kwargs.get("cursor_style", "grey82")				# Rich friendly cursor style
 		self.char_prompt 					= kwargs.get("char_prompt", False)					# Print [Y/N] after the question
 
 	def ask(self):
-		result = confirm(self.question, 
+		result = confirm(f"{self.question}\n",
 										 yes_text=self.yes_text,
 										 no_text=self.no_text,
 										 has_to_match_case=self.has_to_match_case,
@@ -72,7 +72,7 @@ class SingleChoiceQuestion:
 		self.options 			= args[1]																			# A list of options to select from
 		self.preprocessor = kwargs.get("preprocessor", lambda val: val)	# A callable that can be used to preprocess the list of options prior to printing
 		self.cursor 			= kwargs.get("cursor", ">")										# Cursor that is going to appear in front of currently selected option
-		self.cursor_style = kwargs.get("cursor_style", "pink1")					# Rich friendly style for the cursor
+		self.cursor_style = kwargs.get("cursor_style", "grey82")					# Rich friendly style for the cursor
 		self.cursor_index = kwargs.get("cursor_index", 0)								# Option can be preselected based on its list index
 		self.return_index = kwargs.get("return_index", False)						# If True, select will return the index of selected element in options
 		self.strict 			= kwargs.get("strict", False)									# If empty options is provided and strict is False, None will be returned, if it's True, ValueError will be thrown
@@ -80,7 +80,7 @@ class SingleChoiceQuestion:
 		self.page_size 		= kwargs.get("page_size", 5)									# Number of options to show on a single page if pagination is enabled
 
 	def ask(self):
-		print(f"{self.question}")
+		print(f"{self.question}\n")
 		result = select(self.options, 
 										preprocessor=self.preprocessor,	
 										cursor=self.cursor, 
@@ -113,7 +113,7 @@ class MultipleChoiceQuestion:
 		self.page_size 			= kwargs.get("page_size", 5)									# Number of options to show on a single page if pagination is enabled
 
 	def ask(self):
-		print(f"{self.question}")
+		print(f"{self.question}\n")
 		result = select_multiple(self.options,
 														 preprocessor=self.preprocessor,	
 														 tick_character=self.tick_character,
@@ -146,7 +146,7 @@ class FilePathQuestion:
 		self.file_filter 			= kwargs.get("file_filter", None)											# Optional callable to filter suggested paths. Only paths where the passed callable evaluates to True will show up in the suggested paths. This does not validate the typed path, e.g. it is still possible for the user to enter a path manually, even though this filter evaluates to False. If in addition to filtering suggestions you also want to validate the result, use validate in combination with the file_filter.
 
 	def ask(self):
-		result = questionary.path(self.question,
+		result = questionary.path(f"{self.question}\n\n>",
 														  default=self.default,
 														  qmark=self.qmark,
 														  complete_style=self.complete_style,

@@ -121,7 +121,7 @@ class ApplicationHeader:
 	def print(cls, title, version):
 		console.print(get_line(character="#"))
 		console.print(get_space())
-		console.print(f"{title} {version}")
+		console.print(f"[bold green]{title} {version}[/bold green]")
 		console.print(get_space())
 		console.print(get_line(character="#"))
 
@@ -133,7 +133,7 @@ class CommandHeader:
 		
 		self.buffer.append(get_line())
 		self.buffer.append(get_space())
-		self.buffer.append(title.upper())
+		self.buffer.append(f"[bold green]{title.upper()}[/bold green]")
 		self.buffer.append(get_space())
 
 		for description in descriptions:
@@ -165,10 +165,10 @@ class TaskSummarizer:
 		self.header.print()
 
 	def print_summary(self):
-		self.print_header()
+		self.print_header()	
 
 		for task in self.tasks:
-			console.print(task)
+			console.print(f"{task.question} [bold green]{task.value}[/bold green]")
 
 	def clear(self):
 		self.tasks = []

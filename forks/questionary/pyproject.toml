@@ -1,0 +1,54 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311"]
+exclude = "((.eggs | .git | .pytype | .pytest_cache | build | dist))"
+
+[tool.poetry]
+name = "questionary"
+version = "2.0.1"
+description = "Python library to build pretty command line user prompts ⭐️"
+authors = [ "Tom Bocklisch <tombocklisch@gmail.com>",]
+maintainers = [ "Tom Bocklisch <tombocklisch@gmail.com>", "Kian Cross <kian@kiancross.co.uk>"]
+repository = "https://github.com/tmbo/questionary"
+documentation = "https://questionary.readthedocs.io/"
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    # supported python versions
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries",
+]
+keywords = [ "cli", "ui", "inquirer", "questions", "prompt",]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+prompt_toolkit = ">=2.0,<=3.0.36"  # once https://github.com/prompt-toolkit/python-prompt-toolkit/issues/1726 is fixed, this can be changed to ">=2.0,<4.0"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+Sphinx = ">=4.1,<8.0"
+sphinx-rtd-theme = ">=0.5,<2.1"
+sphinx-autobuild = ">=2020.9.1,<2022.0.0"
+sphinx-copybutton = ">=0.3.1,<0.6.0"
+sphinx-autodoc-typehints = "^1.11.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = ">=3,<5"
+pytest = "^7.0.1"
+coveralls = "^3.3.1"
+mypy = "^1.2.0"
+toml = "^0.10.2"
+pre-commit = { version = ">=2.20,<4.0", python = ">=3.7,<4.0"}

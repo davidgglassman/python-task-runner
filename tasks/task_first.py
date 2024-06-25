@@ -19,18 +19,12 @@ def get_info():
 			{
 				"prompt_type": "GenericQuestion",
 				"args": ["Task 1 Step 1: Generic question"],
-				"kwargs": {
-					"initial_value": "Some initial value"
-				}
+				"kwargs": {}
 			},
 			{
 				"prompt_type": "YesNoQuestion",
 				"args": ["Task 1 Step 2: Yes/No question"],
-				"kwargs": {
-					"yes_text": "Sure",
-					"no_text": "Nah",
-					"cursor": "*"
-				}
+				"kwargs": {}
 			}
 		]
 	}

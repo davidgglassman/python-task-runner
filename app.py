@@ -119,11 +119,11 @@ def get_task_names():
 class ApplicationHeader:
 	@classmethod
 	def print(cls, title, version):
-		console.print(get_line(character="#"))
+		console.print(get_line())
 		console.print(get_space())
-		console.print(f"[bold green]{title} {version}[/bold green]")
+		console.print(f"[bold white]{title} {version}[/bold white]")
 		console.print(get_space())
-		console.print(get_line(character="#"))
+		console.print(get_line())
 
 # ----------------------------------------------------------------------------------------
 
@@ -131,16 +131,14 @@ class CommandHeader:
 	def __init__(self, title="", descriptions=[]):
 		self.buffer = []
 		
-		self.buffer.append(get_line())
 		self.buffer.append(get_space())
-		self.buffer.append(f"[bold green]{title.upper()}[/bold green]")
+		self.buffer.append(f"[bold white]{title.upper()}[/bold white]")
 		self.buffer.append(get_space())
 
 		for description in descriptions:
-			self.buffer.append(description)
+			self.buffer.append(f"[grey58]{description}[/grey58]")
 
 		self.buffer.append(get_space())
-		self.buffer.append(get_line())
 		self.buffer.append(get_space())
 
 	def print(self):
@@ -168,7 +166,7 @@ class TaskSummarizer:
 		self.print_header()	
 
 		for task in self.tasks:
-			console.print(f"{task.question} [bold green]{task.value}[/bold green]")
+			console.print(f"[white]{task.question}[/white] [bold green]{task.answer}[/bold green]")
 
 	def clear(self):
 		self.tasks = []
@@ -253,6 +251,7 @@ def main():
 
 					if isinstance(result, Status):
 						print(result)
+						console.print(f"\n{get_line()}")
 
 						spinner.stop()
 						

@@ -22,9 +22,7 @@ def get_info():
 					"Task 2 Step 1: Single choice question",
 					["Option 1", "Option 2", "Option 3"]
 				],
-				"kwargs": {
-					"cursor": "x"
-				}
+				"kwargs": {}
 			},
 			{
 				"prompt_type": "MultipleChoiceQuestion",
@@ -32,9 +30,7 @@ def get_info():
 					"Task 2 Step 2: Multiple choice question",
 					["Option 1a", "Option 2a", "Option 3a"]
 				],
-				"kwargs": {
-					"tick_character": "x"
-				}
+				"kwargs": {}
 			}
 		]
 	}

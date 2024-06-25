@@ -7,12 +7,10 @@ from prompt_toolkit.shortcuts import CompleteStyle
 # ----------------------------------------------------------------------------------------
 
 class Result:
-	def __init__(self, question, value):
+	def __init__(self, question, value, answer=None):
 		self.question = question
+		self.answer = value if answer is None else answer
 		self.value = value
-
-	def __str__(self):
-		return f"{self.question}: {self.value}"
 
 # ----------------------------------------------------------------------------------------
 
@@ -48,11 +46,11 @@ class YesNoQuestion:
 		self.enter_empty_confirms = kwargs.get("enter_empty_confirms", True)	# No response is considered as confirmation
 		self.default_is_yes 			= kwargs.get("default_is_yes", False)				# Default response is positive
 		self.cursor 							= kwargs.get("cursor", ">")									# Cursor to be shown
-		self.cursor_style 				= kwargs.get("cursor_style", "grey82")				# Rich friendly cursor style
+		self.cursor_style 				= kwargs.get("cursor_style", "grey82")			# Rich friendly cursor style
 		self.char_prompt 					= kwargs.get("char_prompt", False)					# Print [Y/N] after the question
 
 	def ask(self):
-		result = confirm(f"{self.question}\n",
+		result = confirm(f"[white]{self.question}[/white]\n",
 										 yes_text=self.yes_text,
 										 no_text=self.no_text,
 										 has_to_match_case=self.has_to_match_case,
@@ -62,7 +60,7 @@ class YesNoQuestion:
 										 cursor_style=self.cursor_style,
 										 char_prompt=self.char_prompt)
 
-		return Result(self.question, result)
+		return Result(self.question, result, answer=self.yes_text if result else self.no_text)
 
 # ----------------------------------------------------------------------------------------
 
@@ -101,8 +99,8 @@ class MultipleChoiceQuestion:
 		self.options 				= args[1]																			# A list of options to select from
 		self.preprocessor   = kwargs.get("preprocessor", lambda val: val)	# A callable that can be used to preprocess the list of options prior to printing
 		self.tick_character = kwargs.get("tick_character", "✓")						# Character that will be used as a tick in a checkbox
-		self.tick_style 		= kwargs.get("tick_style", "pink1")						# Rich friendly style for tick character
-		self.cursor_style 	= kwargs.get("cursor_style", "pink1")					# Rich friendly style for the option when the cursor is currently on it
+		self.tick_style 		= kwargs.get("tick_style", "grey82")					# Rich friendly style for tick character
+		self.cursor_style 	= kwargs.get("cursor_style", "green")					# Rich friendly style for the option when the cursor is currently on it
 		self.ticked_indices = kwargs.get("ticked_indices", None)					# Indices of options that are pre-ticked when the prompt appears
 		self.cursor_index 	= kwargs.get("cursor_index", 0)								# Index of the option cursor starts at
 		self.minimal_count 	= kwargs.get("minimal_count", 0)							# Minimal count of options that need to be selected

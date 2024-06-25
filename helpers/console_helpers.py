@@ -62,7 +62,7 @@ class YesNoQuestion:
 										 cursor_style=self.cursor_style,
 										 char_prompt=self.char_prompt)
 
-		return Result(self.question, self.yes_text if result else self.no_text)
+		return Result(self.question, result)
 
 # ----------------------------------------------------------------------------------------
 

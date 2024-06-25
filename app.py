@@ -242,7 +242,7 @@ def main():
 
 				choice = YesNoQuestion("\nAre you satisfied with your answers?", default_is_yes=True).ask()
 				
-				if choice.value == "Yes":
+				if choice.value:
 					console.print(get_space())
 
 					# -------- Run Task

@@ -15,6 +15,8 @@ from helpers.console_helpers import GenericQuestion, YesNoQuestion, SingleChoice
 from helpers.status_helpers import Status
 from rich.console import Console
 
+os.chdir(sys._MEIPASS)
+
 ################################################################################
 # VARIABLES
 ################################################################################
@@ -245,7 +247,7 @@ def main():
 
 					# -------- Run Task
 
-					spinner = ConsoleSpinner(text=f"Running Task: {info["title"]}", time=1)
+					spinner = ConsoleSpinner(text=f"Running Task: {info['title']}", time=1)
 
 					result = task.run_task(summarizer.tasks)
 

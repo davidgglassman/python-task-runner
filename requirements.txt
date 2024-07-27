@@ -1,0 +1,12 @@
+beaupy @ file:///../forks/beaupy
+questionary @ file:///../forks/questionary
+emoji==2.12.1
+prompt_toolkit==3.0.36
+pytest==8.3.2
+questo==0.2.3
+rich==13.7.1
+toml==0.10.2
+ward==0.68.0b0
+yakh==0.0.5
+pyinstaller==6.8.0
+pyinstaller-hooks-contrib==2024.7

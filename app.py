@@ -12,7 +12,7 @@ import importlib
 import helpers.console_helpers as console_helpers
 
 from helpers.console_helpers import GenericQuestion, YesNoQuestion, SingleChoiceQuestion, MultipleChoiceQuestion, FilePathQuestion, ConsoleSpinner
-from helpers.status_helpers import Status
+from helpers.shared import Status
 from rich.console import Console
 
 os.chdir(sys._MEIPASS)
